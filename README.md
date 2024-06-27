@@ -76,7 +76,7 @@ app.listen(port, () => {
 
 Now you can test the server with the following command:
 ```sh
-node index.js
+node index.js --watch
 ```
 
 and try to access the endpoint http://localhost:3000/which-is-better on postman
