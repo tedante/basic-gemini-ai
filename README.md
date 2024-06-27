@@ -15,7 +15,7 @@ We will create a simple endpoint POST /which-is-better the body should be a JSON
 First please read the documentation of API [here](https://cloud.google.com/vertex-ai/generative-ai/docs/start/quickstarts/quickstart-multimodal#local-shell).
 
 1. Enable the Vertex AI API on Google Cloud Console.
-2. Install [gcloud CLI](https://cloud.google.com/sdk/docs/install).
+2. Install [gcloud CLI](https://cloud.google.com/sdk/docs/install)
 3. Create local authentication credentials for your Google Account:
 ```sh
 gcloud auth application-default login
