@@ -12,14 +12,10 @@ We will create a simple endpoint POST /which-is-better the body should be a JSON
 
 ## Prerequisites
 
-First please read the documentation of API [here](https://cloud.google.com/vertex-ai/generative-ai/docs/start/quickstarts/quickstart-multimodal#local-shell).
 
-1. Enable the Vertex AI API on Google Cloud Console.
-2. Install [gcloud CLI](https://cloud.google.com/sdk/docs/install)
-3. Create local authentication credentials for your Google Account:
-```sh
-gcloud auth application-default login
-```
+* Node.js and npm installed
+* Basic understanding of Express.js
+* Get Gemini API key from Google Cloud Console. Please read the  [documentation](https://ai.google.dev/gemini-api/docs/quickstart?lang=node).
 
 ## Preparation
 
@@ -36,12 +32,19 @@ npm init -y # Initialize a new Node.js project
 2. Install basic dependencies:
 ```sh
 npm install express dotenv axios cors
+npm install nodemon --save-dev
 ```
 
-3. Install vertex AI:
+3. Install generative ai:
 
 ```sh
-npm install @google-cloud/vertexai
+npm install @google/generative-ai
+```
+
+4. copy the .env.example file to .env and fill the API key
+
+```sh
+cp .env.example .env
 ```
 
 ## Basic Usage
@@ -76,7 +79,7 @@ app.listen(port, () => {
 
 Now you can test the server with the following command:
 ```sh
-node index.js --watch
+npx nodemon index.js
 ```
 
 and try to access the endpoint http://localhost:3000/which-is-better on postman
@@ -86,16 +89,15 @@ and try to access the endpoint http://localhost:3000/which-is-better on postman
 let's create a helper function to call the GeminiAI API. Create a new file called gemini.js and add the following code:
 ```js
 // ./helpers/gemini.js
-const axios = require('axios')
-const { VertexAI } = require('@google-cloud/vertexai')
+require('dotenv').config();
+const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 let gemini = async (phone1, phone2) => {
-  const vertexAI = new VertexAI({ project: "movie-app-325113", location: 'us-central1' });
-    
-  const generativeModel = vertexAI.getGenerativeModel({
-   model: 'gemini-1.5-flash-001',
-  });
-  
+  // Access your API key as an environment variable (see "Set up your API key" above)
+  const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY);
+
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
   const prompt = `please give me specification, pros and cons of ${phone1} vs ${phone2}`;
   
   const resp = await generativeModel.generateContent(prompt);
